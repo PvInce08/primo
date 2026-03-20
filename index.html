@@ -363,6 +363,22 @@ footer{background:var(--ink);padding:2rem 3rem;display:flex;align-items:center;j
     }
   }
 
+  // iframe shields: cursor tracking over embeds, clean click-through
+  document.querySelectorAll('iframe').forEach(function(f){
+    var w=f.parentElement;
+    if(getComputedStyle(w).position==='static')w.style.position='relative';
+    var d=document.createElement('div');
+    d.style.cssText='position:absolute;inset:0;z-index:2;cursor:none';
+    d.addEventListener('mousedown',function(){
+      d.style.pointerEvents='none';
+      document.addEventListener('mouseup',function once(){
+        d.style.pointerEvents='';
+        document.removeEventListener('mouseup',once);
+      });
+    });
+    w.appendChild(d);
+  });
+
   // Scroll-reveal via IntersectionObserver
   var obs=new IntersectionObserver(function(entries){
     entries.forEach(function(e){
