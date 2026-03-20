@@ -128,18 +128,27 @@ footer{background:var(--ink);padding:2rem 3rem;display:flex;align-items:center;j
   nav{padding:1rem 1.5rem}
   .nav-links{display:none}
   .hero-content{padding:0 1.5rem 3rem;flex-direction:column;align-items:flex-start;gap:1.5rem}
+  .hero-h1{font-size:8.5vw;white-space:nowrap}
+  .hero-h1 .char{animation:none!important;opacity:1!important;transform:none!important}
+  .hero-tags,.hero-cta{animation:none!important;opacity:1!important;transform:none!important}
   #release{padding:2.5rem 1.5rem;gap:1.5rem}
   #about{grid-template-columns:1fr}
   .about-img{min-height:55vw}
   .about-text{padding:3rem 1.5rem}
   #music{padding:4rem 1.5rem}
-  .sp-card iframe{width:220px!important;height:300px!important}
+  .sp-outer{overflow:visible}
+  .sp-outer::before,.sp-outer::after{display:none}
+  .sp-inner{animation:none!important;flex-direction:column;width:100%!important;transform:none!important}
+  .sp-card{width:100%}
+  .sp-card iframe{width:100%!important;height:80px!important}
   #instagram{padding:4rem 1.5rem}
   .ig-grid{grid-template-columns:1fr 1fr;gap:0.75rem}
-  #tiktok{padding:4rem 1.5rem 0}
+  #tiktok{padding:4rem 1.5rem}
   .tt-layout{grid-template-columns:1fr}
-  .tt-clips{grid-template-columns:1fr}
-  .tt-side-clips{display:none}
+  .tt-clips{display:flex!important;flex-direction:column;gap:1rem}
+  .tt-side-clips{display:flex!important;flex-direction:column;gap:1rem}
+  .tt-card{aspect-ratio:unset!important;height:420px;width:100%}
+  .tt-card iframe{top:-80px!important;height:calc(100% + 150px)!important}
   #twitch{padding:3rem 1.5rem}
   .tw-name{font-size:clamp(2.5rem,10vw,5rem)}
   #booking{padding:5rem 1.5rem}
@@ -332,7 +341,8 @@ footer{background:var(--ink);padding:2rem 3rem;display:flex;align-items:center;j
   // Spotify: rebuild carousel from config
   var sp=document.querySelector('.sp-inner');
   if(sp&&cfg.releases){
-    sp.innerHTML=cfg.releases.concat(cfg.releases).map(function(id){
+    var isMobile=window.innerWidth<860;
+    sp.innerHTML=(isMobile?cfg.releases:cfg.releases.concat(cfg.releases)).map(function(id){
       return '<div class="sp-card"><iframe src="https://open.spotify.com/embed/track/'+id+'?utm_source=generator" width="100%" height="152" frameborder="0" allowfullscreen allow="autoplay;clipboard-write;encrypted-media;fullscreen;picture-in-picture" loading="lazy"></iframe></div>';
     }).join('');
   }
@@ -363,21 +373,24 @@ footer{background:var(--ink);padding:2rem 3rem;display:flex;align-items:center;j
     }
   }
 
-  // iframe shields: cursor tracking over embeds, clean click-through
-  document.querySelectorAll('iframe').forEach(function(f){
-    var w=f.parentElement;
-    if(getComputedStyle(w).position==='static')w.style.position='relative';
-    var d=document.createElement('div');
-    d.style.cssText='position:absolute;inset:0;z-index:2;cursor:none';
-    d.addEventListener('mousedown',function(){
-      d.style.pointerEvents='none';
-      document.addEventListener('mouseup',function once(){
-        d.style.pointerEvents='';
-        document.removeEventListener('mouseup',once);
+  // Container shields: smooth cursor over iframe sections, skip touch devices
+  if(!('ontouchstart' in window)&&navigator.maxTouchPoints===0){
+    ['#release .rel-player','#music .sp-outer','#tiktok .tt-clips'].forEach(function(sel){
+      var el=document.querySelector(sel);
+      if(!el)return;
+      if(getComputedStyle(el).position==='static')el.style.position='relative';
+      var d=document.createElement('div');
+      d.style.cssText='position:absolute;inset:0;z-index:1';
+      d.addEventListener('mousedown',function(){
+        d.style.pointerEvents='none';
+        document.addEventListener('mouseup',function once(){
+          d.style.pointerEvents='';
+          document.removeEventListener('mouseup',once);
+        });
       });
+      el.appendChild(d);
     });
-    w.appendChild(d);
-  });
+  }
 
   // Scroll-reveal via IntersectionObserver
   var obs=new IntersectionObserver(function(entries){
