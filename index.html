@@ -130,18 +130,32 @@ footer{background:var(--ink);padding:2rem 3rem;display:flex;align-items:center;j
   .hero-content{padding:0 1.5rem 3rem;flex-direction:column;align-items:flex-start;gap:1.5rem}
   #release{padding:2.5rem 1.5rem;gap:1.5rem}
   #about{grid-template-columns:1fr}
-  .about-img{min-height:280px}
-  .about-text{padding:4rem 1.5rem}
-  #music{padding:5rem 1.5rem}
+  .about-img{min-height:55vw}
+  .about-text{padding:3rem 1.5rem}
+  #music{padding:4rem 1.5rem}
+  .sp-card iframe{width:220px!important;height:300px!important}
   #instagram{padding:4rem 1.5rem}
-  #tiktok{padding:5rem 1.5rem}
-  .tt-grid{gap:0.5rem}
-  #twitch{padding:4rem 1.5rem}
+  .ig-grid{grid-template-columns:1fr 1fr;gap:0.75rem}
+  #tiktok{padding:4rem 1.5rem 0}
+  .tt-layout{grid-template-columns:1fr}
+  .tt-clips{grid-template-columns:1fr}
+  .tt-side-clips{display:none}
+  #twitch{padding:3rem 1.5rem}
   .tw-name{font-size:clamp(2.5rem,10vw,5rem)}
-  #booking{grid-template-columns:1fr}
+  #booking{padding:5rem 1.5rem}
   footer{padding:1.5rem}
 }
-*{cursor:none!important}#sun-cursor{position:fixed;top:0;left:0;pointer-events:none;width:30px;height:30px;transform:translate(-50%,-50%);z-index:99999;will-change:left,top}.reveal{opacity:0;transform:translateY(28px);transition:opacity 0.65s ease,transform 0.65s ease}.reveal.visible{opacity:1;transform:translateY(0)}.reveal-d1{transition-delay:0.12s}.reveal-d2{transition-delay:0.24s}.reveal-d3{transition-delay:0.36s}</style>
+@media(hover:none),(pointer:coarse){
+  #sun-cursor{display:none!important}
+  *{cursor:auto!important}
+}
+*{cursor:none!important}#sun-cursor{position:fixed;top:0;left:0;pointer-events:none;width:30px;height:30px;transform:translate(-50%,-50%);z-index:99999;will-change:left,top}
+@keyframes charIn{from{opacity:0;transform:translateY(60%) skewY(4deg)}to{opacity:1;transform:translateY(0) skewY(0deg)}}
+.hero-h1 .char{display:inline-block;opacity:0;animation:charIn 0.55s cubic-bezier(0.22,1,0.36,1) forwards;animation-delay:calc(var(--i) * 55ms + 200ms)}
+.hero-h1 .word-gap{display:inline-block;width:0.35em}
+.hero-tags{opacity:0;animation:charIn 0.5s ease forwards;animation-delay:0.95s}
+.hero-cta{opacity:0;animation:charIn 0.5s ease forwards;animation-delay:1.1s}
+.reveal{opacity:0;transform:translateY(28px);transition:opacity 0.65s ease,transform 0.65s ease}.reveal.visible{opacity:1;transform:translateY(0)}.reveal-d1{transition-delay:0.12s}.reveal-d2{transition-delay:0.24s}.reveal-d3{transition-delay:0.36s}</style>
 </head>
 <body>
 <script type="application/json" id="site-config">
@@ -349,19 +363,6 @@ footer{background:var(--ink);padding:2rem 3rem;display:flex;align-items:center;j
     }
   }
 
-  // iframe shields: keep sun cursor visible over embeds
-  document.querySelectorAll('iframe').forEach(function(f){
-    var w=f.parentElement;
-    if(getComputedStyle(w).position==='static')w.style.position='relative';
-    var d=document.createElement('div');
-    d.style.cssText='position:absolute;inset:0;z-index:2';
-    d.addEventListener('mousedown',function(){
-      d.style.pointerEvents='none';
-      setTimeout(function(){d.style.pointerEvents='';},400);
-    });
-    w.appendChild(d);
-  });
-
   // Scroll-reveal via IntersectionObserver
   var obs=new IntersectionObserver(function(entries){
     entries.forEach(function(e){
@@ -370,6 +371,35 @@ footer{background:var(--ink);padding:2rem 3rem;display:flex;align-items:center;j
   },{threshold:0.12});
   document.querySelectorAll('.reveal').forEach(function(el){obs.observe(el);});
 
+})();
+</script>
+<script>
+(function(){
+  var h1=document.querySelector('.hero-h1');
+  if(!h1)return;
+  var counter=0;
+  function wrapChars(node){
+    if(node.nodeType===3){
+      var frag=document.createDocumentFragment();
+      node.textContent.split('').forEach(function(ch){
+        if(ch===' '||ch==='\n'){
+          var gap=document.createElement('span');
+          gap.className='word-gap';
+          frag.appendChild(gap);
+        } else {
+          var s=document.createElement('span');
+          s.className='char';
+          s.style.setProperty('--i',counter++);
+          s.textContent=ch;
+          frag.appendChild(s);
+        }
+      });
+      node.parentNode.replaceChild(frag,node);
+    } else if(node.nodeType===1){
+      Array.from(node.childNodes).forEach(wrapChars);
+    }
+  }
+  Array.from(h1.childNodes).forEach(wrapChars);
 })();
 </script>
 </body>
