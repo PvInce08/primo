@@ -112,20 +112,12 @@ nav{position:fixed;top:0;left:0;right:0;z-index:100;display:flex;align-items:cen
 .tw-btn{font-family:var(--fm);font-size:0.68rem;text-transform:uppercase;letter-spacing:0.14em;color:var(--br-green);border:1.5px solid var(--br-green);padding:0.9rem 2.2rem;text-decoration:none;align-self:center}
 .tw-btn:hover{border-color:var(--br-green);background:rgba(0,132,61,0.1)}
 
-#booking{display:grid;grid-template-columns:1fr 1fr}
-.book-left{background:var(--br-green);padding:6rem 4rem;display:flex;flex-direction:column;justify-content:center}
+#booking{display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:7rem 2rem;background:var(--br-green)}
+.book-left{max-width:540px;width:100%;display:flex;flex-direction:column;align-items:center}
 .book-left .sec-lbl{color:rgba(255,255,255,0.45)}
-.book-left h2{font-family:var(--ff);font-size:clamp(2rem,3.5vw,3rem);color:var(--br-yellow);line-height:1.1;margin-bottom:1.5rem}
-.book-left p{font-size:0.95rem;line-height:1.8;color:rgba(255,255,255,0.75)}
-.book-mail{display:inline-block;font-family:var(--fm);font-size:0.7rem;text-transform:uppercase;letter-spacing:0.08em;color:var(--br-yellow);text-decoration:none;border-bottom:1.5px solid var(--br-yellow);padding-bottom:2px;margin-top:1.4rem}
-.book-right{padding:6rem 4rem;background:var(--cream)}
-.fg{margin-bottom:1.6rem}
-.fg label{display:block;font-family:var(--fm);font-size:0.58rem;text-transform:uppercase;letter-spacing:0.14em;color:var(--muted);margin-bottom:0.55rem}
-.fg input,.fg textarea,.fg select{width:100%;background:transparent;border:none;border-bottom:1.5px solid rgba(15,14,9,0.18);padding:0.65rem 0;font-family:var(--fs);font-size:0.95rem;color:var(--ink);outline:none;appearance:none}
-.fg input:focus,.fg textarea:focus,.fg select:focus{border-color:var(--br-green)}
-.fg textarea{resize:none;height:76px}
-.sub-btn{background:var(--ink);color:var(--cream);border:none;font-family:var(--fm);font-size:0.66rem;text-transform:uppercase;letter-spacing:0.14em;padding:0.95rem 2.4rem;cursor:pointer}
-.sub-btn:hover{background:var(--br-green)}
+.book-left h2{font-family:var(--ff);font-size:clamp(2.4rem,5vw,3.8rem);color:var(--br-yellow);line-height:1.05;margin-bottom:1.4rem;font-style:italic}
+.book-left p{font-size:0.97rem;line-height:1.8;color:rgba(255,255,255,0.75);margin-bottom:2.4rem}
+.book-mail{display:inline-block;font-family:var(--fm);font-size:0.72rem;text-transform:uppercase;letter-spacing:0.12em;color:var(--ink);background:var(--br-yellow);padding:1.1rem 2.8rem;text-decoration:none;transition:background 0.2s}.book-mail:hover{background:var(--cream)}
 
 footer{background:var(--ink);padding:2rem 3rem;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:1rem}
 .ft-logo{font-family:var(--ff);font-size:1.1rem;color:var(--cream)}
@@ -147,7 +139,6 @@ footer{background:var(--ink);padding:2rem 3rem;display:flex;align-items:center;j
   #twitch{padding:4rem 1.5rem}
   .tw-name{font-size:clamp(2.5rem,10vw,5rem)}
   #booking{grid-template-columns:1fr}
-  .book-left,.book-right{padding:4rem 1.5rem}
   footer{padding:1.5rem}
 }
 *{cursor:none!important}#sun-cursor{position:fixed;top:0;left:0;pointer-events:none;width:30px;height:30px;transform:translate(-50%,-50%);z-index:99999;will-change:left,top}.reveal{opacity:0;transform:translateY(28px);transition:opacity 0.65s ease,transform 0.65s ease}.reveal.visible{opacity:1;transform:translateY(0)}.reveal-d1{transition-delay:0.12s}.reveal-d2{transition-delay:0.24s}.reveal-d3{transition-delay:0.36s}</style>
@@ -296,27 +287,8 @@ footer{background:var(--ink);padding:2rem 3rem;display:flex;align-items:center;j
   <div class="book-left reveal">
     <p class="sec-lbl">// Booking &amp; Kontakt</p>
     <h2>Lass uns<br>was machen.</h2>
-    <p>Gig, Collab, Brand Deal oder einfach Hallo.</p>
+    <p>Gig, Collab, Brand Deal oder einfach Hallo —<br>schreib uns direkt.</p>
     <a class="book-mail" href="mailto:Management@primoberlin.de">Management@primoberlin.de ↗</a>
-  </div>
-  <div class="book-right reveal reveal-d1">
-    <form id="contact-form" action="https://formspree.io/f/YOUR_FORM_ID" method="POST">
-      <div class="fg"><label>Name</label><input type="text" name="name" placeholder="Dein Name" required></div>
-      <div class="fg"><label>E-Mail</label><input type="email" name="_replyto" placeholder="deine@email.de" required></div>
-      <div class="fg"><label>Anfrage</label>
-        <select name="type">
-          <option value="">Kategorie</option>
-          <option>Live-Gig / Konzert</option>
-          <option>Brand Collaboration</option>
-          <option>TikTok / Content</option>
-          <option>Musik Lizenz</option>
-          <option>Sonstiges</option>
-        </select>
-      </div>
-      <div class="fg"><label>Nachricht</label><textarea name="message" placeholder="Was hast du im Sinn?"></textarea></div>
-      <button class="sub-btn" type="submit">Absenden ↗</button>
-    </form>
-      <div id="form-ok" style="display:none;color:var(--br-green);font-family:var(--fm);font-size:0.7rem;text-transform:uppercase;letter-spacing:0.14em;margin-top:1.2rem">Nachricht gesendet ✓</div>
   </div>
 </section>
 
@@ -398,30 +370,6 @@ footer{background:var(--ink);padding:2rem 3rem;display:flex;align-items:center;j
   },{threshold:0.12});
   document.querySelectorAll('.reveal').forEach(function(el){obs.observe(el);});
 
-})();
-</script>
-<script>
-(function(){
-  var f=document.getElementById('contact-form');
-  if(!f)return;
-  f.addEventListener('submit',function(e){
-    e.preventDefault();
-    var btn=f.querySelector('.sub-btn');
-    btn.disabled=true;
-    fetch(f.action,{method:'POST',body:new FormData(f),headers:{Accept:'application/json'}})
-    .then(function(r){
-      if(r.ok){
-        f.reset();
-        document.getElementById('form-ok').style.display='block';
-      } else {
-        btn.disabled=false;
-        alert('Fehler beim Senden. Bitte versuche es erneut.');
-      }
-    }).catch(function(){
-      btn.disabled=false;
-      alert('Netzwerkfehler. Bitte versuche es erneut.');
-    });
-  });
 })();
 </script>
 </body>
